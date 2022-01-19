@@ -34,14 +34,14 @@ router.post('/login', async(req,res) => {
         if(!user) res.status(401).json('Wrong credentials!');
         else{
             const hashedPassword = CryptoJs.AES.decrypt( user.password, process.env.CRYPT_PASS_SECRET ).toString(CryptoJs.enc.Utf8);
-            if(hashedPassword !== req.body.password)res.status(401).json('Wrong password !!');
+            if(hashedPassword !== req.body.password) res.status(401).json('Wrong password !!');
             else{
                 const accessToken = jwt.sign({
                     id: user._id,
                     isAdmin: user.isAdmin
                 }, 
                     process.env.JWT_SECRET_KEY ,
-                    { expiresIn: "2h" }
+                    { expiresIn: "2d" }
                 );
 
                 const { password, ...others } = user._doc;

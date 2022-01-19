@@ -20,6 +20,8 @@ app.use(bodyParser.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/products', require('./routes/products'));
+app.use('/api/cart', require('./routes/cart'));
+app.use('/api/orders', require('./routes/order'));
 
 // Starting the server
 app.listen(app.get('port'), ()=>{
