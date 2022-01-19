@@ -13,6 +13,9 @@ router.post('/register', async (req, res) => {
         password: CryptoJs.AES.encrypt( req.body.password, process.env.CRYPT_PASS_SECRET ).toString()
     });
 
+    if(req.body.isAdmin)
+        newUser.isAdmin = true;
+
     try {
         res.status(201).json(await newUser.save());
     } catch (error) {
@@ -32,10 +35,16 @@ router.post('/login', async(req,res) => {
             const hashedPassword = CryptoJs.AES.decrypt( user.password, process.env.CRYPT_PASS_SECRET ).toString(CryptoJs.enc.Utf8);
             if(hashedPassword !== req.body.password)res.status(401).json('Wrong password !!');
             else{
-                const access
+                const accessToken = jwt.sign({
+                    id: user._id,
+                    isAdmin: user.isAdmin
+                }, 
+                    process.env.JWT_SECRET_KEY ,
+                    { expiresIn: "2h" }
+                );
 
                 const { password, ...others } = user._doc;
-                res.status(200).json(others);
+                res.status(200).json({ ...others, accessToken });
             }
         }
         
