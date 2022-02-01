@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
+const cors = require('cors');
 
 // Initializationes 
 const app = express();
@@ -11,6 +12,9 @@ mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGOD
     .then(() => console.log('⚡ DB Connected successfully!'))
     .catch((err) => console.log('📛 DB Error : ',err));
 app.set('port', process.env.PORT || 5000);
+
+// Cors Policy
+app.use(cors({ origin: process.env.REACT_APP_BACK_URL, optionsSuccessStatus: 200 }));
 
 // Body parser let data pass to the body
 app.use(bodyParser.urlencoded({ extended: false }));
