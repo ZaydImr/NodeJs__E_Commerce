@@ -21,9 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
-app.use('/', (req,res) => {
-    res.send(process.env.FRONT_END_URL || 'There is no front end key !!');
-});
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/products', require('./routes/products'));
