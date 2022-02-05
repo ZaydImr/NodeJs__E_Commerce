@@ -14,13 +14,16 @@ mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGOD
 app.set('port', process.env.PORT || 5000);
 
 // Cors Policy
-app.use(cors({ origin: process.env.REACT_APP_BACK_URL, optionsSuccessStatus: 200 }));
+app.use(cors({ origin: process.env.FRONT_END_URL, optionsSuccessStatus: 200 }));
 
 // Body parser let data pass to the body
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Routes
+app.use('/', (req,res) => {
+    res.send(process.env.FRONT_END_URL || 'There is no front end key !!');
+});
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/products', require('./routes/products'));
