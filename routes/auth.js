@@ -38,12 +38,15 @@ router.post('/login', async(req,res) => {
             else{
                 const { password, ...others } = user._doc;
 
-                const accessToken = jwt.sign(
-                    ...others, 
+                console.log({...others});
+
+                const accessToken = jwt.sign({
+                    ...others
+                }, 
                     process.env.JWT_SECRET_KEY ,
                     { expiresIn: "2d" }
                 );
-                
+
                 res.status(200).json({ accessToken });
             }
         }
